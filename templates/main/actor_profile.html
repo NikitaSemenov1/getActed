@@ -1,0 +1,103 @@
+{% extends "wrapper.html" %}
+
+{% block title %} Actor Profile {% endblock %}
+
+{% block content %}
+    {% load static %}
+    <div class="container-fluid">
+
+
+    <div class="row" style="height: 900px">
+        <div class="col-md-10 p-0 d-flex flex-column" style="height: 100%;">
+            <div class="d-flex flex-grow-1 flex-column" style=" margin: 10%">
+                <nav id="profile-nav">
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-photos-tab" data-toggle="tab" href="#nav-photos" role="tab" aria-controls="nav-home" aria-selected="true">Photos</a>
+                    <a class="nav-item nav-link" id="nav-videos-tab" data-toggle="tab" href="#nav-videos" role="tab" aria-controls="nav-videos" aria-selected="false">Videos</a>
+                    <a class="nav-item nav-link" id="nav-projects-tab" data-toggle="tab" href="#nav-projects" role="tab" aria-controls="nav-projects" aria-selected="false">Projects</a>
+                    <a class="nav-item nav-link" id="nav-reqs-tab" data-toggle="tab" href="#nav-reqs" role="tab" aria-controls="nav-reqs" aria-selected="false">Requests</a>
+
+                  </div>
+                </nav>
+                <div class="tab-content d-flex flex-grow-1" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="nav-photos" role="tabpanel" aria-labelledby="nav-photos-tab">
+
+                  </div>
+                  <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
+
+                  </div>
+                  <div class="tab-pane fade" id="nav-projects" role="tabpanel" aria-labelledby="nav-projects-tab">
+
+                  </div>
+                    <div class="tab-pane fade w-100" id="nav-reqs" role="tabpanel" aria-labelledby="nav-reqs-tab">
+<div id="requests" class="d-flex flex-row w-100">
+        <div id="incoming" class="d-flex flex-column w-50">
+            <h1>Incoming</h1>
+            <div class="d-flex">
+            {% for request in role2actor %}
+                <div class="d-flex">
+                <p>{{ request.role }} ----- {{  request.actor}}</p>
+                <form method="post">
+                    {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;" name="Accept" value={{ request.id }}>Принять</button>
+                    <button type="submit" class="btn btn-outline-warning" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Отказать</button>
+             </form>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div id="outgoing" class="d-flex flex-column w-50">
+            <h1> Outgoing </h1>
+            {% for request in actor2role %}
+
+                <p>{{ request.actor }} ----- {{ request.role }}</p>
+            {% endfor %}
+        </div>
+    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 p-0 d-flex flex-column">
+            <div class="d-flex">
+                <img src="{% static 'images/korean.png'%}" style="width: 100%">
+            </div>
+            <div class="d-flex flex-grow-1" style="background-color: #141414">
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+    <div class="row">
+    <div class="col-md-6">
+
+    <div class="form-control">
+
+    <form action='{% url 'actor_profile' %}' method="post" name="profile">
+        {% csrf_token %}
+            {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+        {{ form.as_ul }}
+{#        {% for field in form %}#}
+{#            <div class="form-group">#}
+{#            {{ field.label }}#}
+{#                {{ field }}#}
+{#            </div>#}
+{#        {% endfor %}#}
+        <button class="btn btn-primary" type="submit" value="Submit"> Save</button>
+    </form>
+    </div>
+
+    </div>
+    <div class="col-md-6">
+
+
+    </div>
+    </div>
+    </div>
+{% endblock %}

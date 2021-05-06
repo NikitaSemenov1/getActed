@@ -1,0 +1,54 @@
+{% extends "wrapper.html" %}
+
+{% block title %}Authorization{% endblock %}
+
+{% block content %}
+
+    <div style="margin:100px;">
+    <div class="container-fluid">
+    <div class="row justify-content-center">
+    <form class="col-md-4 well form-horizontal" action="" method="post"  id="contact_form">
+        {% csrf_token %}
+    <fieldset>
+    <!-- Form Name -->
+    <legend><center><h2><b>Authorization</b></h2></center></legend><br>
+    <!-- Text input-->
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label"style="margin:7px;">Login</label>
+            <div class="col-md-14 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input  name="user_name" class="form-control" type="text">
+                </div>
+            </div>
+          </div>
+          <!-- Text input-->
+
+          <div class="form-group">
+            <label class="col-md-4 control-label"style="margin:7px;" >Password</label>
+              <div class="col-md-14 inputGroupContainer">
+              <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input name="user_password" class="form-control"  type="password">
+              </div>
+            </div>
+          </div>
+            {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+          <!-- Button -->
+          <div class="form-group d-flex justify-content-center">
+            <label class="col-md-14 control-label" ></label>
+            <div class="col-md-14" style="align-content: center;"><br>
+              <button type="submit" class="register_btn" >Log in</button>
+            </div>
+          </div>
+
+          </fieldset>
+          </form>
+        </div>
+          </div>
+        </div>
+
+{% endblock %}

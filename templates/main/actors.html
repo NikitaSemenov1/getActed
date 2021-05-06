@@ -1,0 +1,57 @@
+{% extends "wrapper.html" %}
+
+{% block title %} Актеры {% endblock %}
+
+{% block content %}
+
+    <form method="GET" action="{% url 'actors' %}" class="form-inline">
+        {% csrf_token %}
+        {{ filter.form }}
+    <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+<!-- Modal -->
+<div class="modal fade" id="choose_role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <form method="post" action="{% url 'actors' %}">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Choose the role</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <select name="role_id" class="form-control" id="exampleFormControlSelect1">
+                {% for role in roles %}
+              <option value="{{role.id}}">{{ role }}</option>
+                {% endfor %}
+            </select>
+        <input type="hidden" id="actor_id" name="actor_id" value="popa">
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary"   > Invite </button>
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+    {% for actor in actors %}
+        <div class="d-flex">
+        <p>{{ actor }}</p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#choose_role" id="invite_{{ actor.id }}">
+            Invite
+        </button>
+        </div>
+                        <script type="text/javascript">
+                            $("#invite_{{ actor.id }}").click(function () {
+                                document.getElementById('actor_id').value = {{ actor.id }}
+                    });
+                        </script>
+    {% endfor %}
+{% endblock %}
