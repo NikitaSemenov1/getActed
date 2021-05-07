@@ -76,8 +76,8 @@
                 <p style="margin-right: 20px"><a href="{% url 'actor_profile' actor_id=request.actor_id %}">{{ request.actor }}</a></p>
                 <form method="post" action="{% url 'role' role_id=role.id %}">
                     {% csrf_token %}
-                        <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;" name="Accept" value={{ request.id }}>Принять</button>
-                    <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Отказать</button>
+                        <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;" name="Accept" value={{ request.id }}>Accept</button>
+                    <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Deny</button>
                 </form>
             </div>
                 {% endfor %}

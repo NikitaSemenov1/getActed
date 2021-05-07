@@ -43,7 +43,7 @@ def signup_page(request):
             form = CreateEmployerForm(request.POST)
 
         if form.is_valid():
-            messages.success(request, 'Вы успешно зарегистрировались')
+            messages.success(request, 'You have successfully signed up')
             form.save()
             return redirect('signup')
         else:
