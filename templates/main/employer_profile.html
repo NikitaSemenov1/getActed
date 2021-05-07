@@ -3,57 +3,114 @@
 {% block title %} Employer Profile {% endblock %}
 
 {% block content %}
-    <div class="row">
-    <div class="col-md-6">
+    <div class="modal fade" id="emp-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <form method="post" action="{% url 'employer_profile' %}">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle"> Enter info about you </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+{#        {{ profile_form.as_ul }}#}
+        {% for field in profile_form %}
+            <div class="form-group">
+            <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit" name="profile" value="Submit"> Save</button>
+
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+    <div class="modal fade" id="add-role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <form method="post" action="{% url 'employer_profile' %}">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle"> Enter info about you </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+{#        {{ profile_form.as_ul }}#}
+        {% for field in role_form %}
+            <div class="form-group">
+            <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit" name="role" value="Submit"> Publish </button>
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+    {% load static %}
+
             {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
-    {% if not role %}
-    <div class="form-group">
-
-    <form action='{% url 'employer_profile' %}' method="post">
-        {% csrf_token %}
-        {{ profile_form.as_ul }}
-{#        {% for field in form %}#}
-{#            <div class="form-group">#}
-{#            {{ field.label }}#}
-{#                {{ field }}#}
-{#            </div>#}
-{#        {% endfor %}#}
-        <button class="btn btn-primary" type="submit" name="profile" value="Submit"> Save</button>
-    </form>
-    </div>
-    <div class="form-group">
-        <form action="{% url 'employer_profile' %}" method="post">
-            {% csrf_token %}
-
-            {{ role_form.as_ul }}
-
-        <button class="btn btn-primary" type="submit" name="role" value="Submit"> Publish</button>
-        </form>
-    </div>
-    {% endif %}
-</div>
-    <div class="col-md-6">
+    <div class="row justify-content-center mt-2 p-2">
     {% if role %}
-        <div id="requests">
-            <div id="outgoing">
-                <h1> Incoming </h1>
+        <div class="col-md-8">
+        <div id="requests" class="d-flex flex-row w-100"  style="background-image: url('{% static 'svg/req_rect.svg' %}')">
+
+            <div id="incoming" class="d-flex flex-column w-50">
+                <h1> Incoming </h1><br>
+
+            <div>
                 {% for request in actor2role %}
 
-                    <p>{{ request.actor }} ----- {{ request.role }}</p>
+            <div class="d-flex w-100">
+                <p style="margin-right: 20px"><a href="{% url 'actor_profile' actor_id=request.actor_id %}">{{ request.actor }}</a></p>
+                <form method="post" action="{% url 'role' role_id=role.id %}">
+                    {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;" name="Accept" value={{ request.id }}>Принять</button>
+                    <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Отказать</button>
+                </form>
+            </div>
                 {% endfor %}
             </div>
-            <div id="incoming">
-                <h1>Outgoing</h1>
-                {% for request in role2actor %}
-                    <p>{{ request.role }} ----- {{  request.actor}}</p>
-                    <p>{{ request.status }}</p>
-                {% endfor %}
             </div>
-        </div>
 
+            <div id="outgoing" class="d-flex flex-column w-50">
+                    <h1>Outgoing</h1><br>
+
+                    {% for request in role2actor %}
+
+            <div class="d-flex">
+                        <p class="mr-5"><a href="">{{  request.actor}}</a></p>
+                        <p style="color: {{ request.color }}">{{ request.status }}</p>
+            </div>
+                    {% endfor %}
+            </div>
+
+        </div>
+        </div>
     {% else %}
+    <div class="col-md-6">
+        <button type="button" class="btn btn-dark mr-2" data-toggle="modal" data-target="#emp-info">
+            Edit info
+        </button>
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add-role">
+            Add role
+        </button>
+
+</div>
+    {% endif %}
+    {% if not role %}
+    <div class="col-md-6">
         <h1>Roles</h1>
         {% for role in roles %}
             <p><a href="{% url 'role' role_id=role.id %}">{{ role }}</a></p>

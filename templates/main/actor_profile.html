@@ -9,18 +9,150 @@
 
     <div class="row" style="height: 900px">
         <div class="col-md-10 p-0 d-flex flex-column" style="height: 100%;">
-            <div class="d-flex flex-grow-1 flex-column" style=" margin: 10%">
+            <div class="d-flex flex-grow-1 flex-column" style="margin-top: 20px; margin-left: 50px; margin-right: 50px">
                 <nav id="profile-nav">
                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-photos-tab" data-toggle="tab" href="#nav-photos" role="tab" aria-controls="nav-home" aria-selected="true">Photos</a>
+                  <a class="nav-item nav-link  active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="false"> Info </a>
+                    <a class="nav-item nav-link" id="nav-look-tab" data-toggle="tab" href="#nav-look" role="tab" aria-controls="nav-look" aria-selected="true">Look</a>
+
+                    <a class="nav-item nav-link" id="nav-photos-tab" data-toggle="tab" href="#nav-photos" role="tab" aria-controls="nav-photos" aria-selected="true">Photos</a>
                     <a class="nav-item nav-link" id="nav-videos-tab" data-toggle="tab" href="#nav-videos" role="tab" aria-controls="nav-videos" aria-selected="false">Videos</a>
                     <a class="nav-item nav-link" id="nav-projects-tab" data-toggle="tab" href="#nav-projects" role="tab" aria-controls="nav-projects" aria-selected="false">Projects</a>
-                    <a class="nav-item nav-link" id="nav-reqs-tab" data-toggle="tab" href="#nav-reqs" role="tab" aria-controls="nav-reqs" aria-selected="false">Requests</a>
-
+                    {% if owner %}
+                      <a class="nav-item nav-link" id="nav-reqs-tab" data-toggle="tab" href="#nav-reqs" role="tab" aria-controls="nav-reqs" aria-selected="false">Requests</a>
+                    {% endif %}
                   </div>
                 </nav>
                 <div class="tab-content d-flex flex-grow-1" id="nav-tabContent">
-                  <div class="tab-pane fade show active" id="nav-photos" role="tabpanel" aria-labelledby="nav-photos-tab">
+                <div class="tab-pane fade show active w-100" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+
+              <div class="card mt-3 w-100">
+                <div class="card-body w-100">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.name }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.email }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Education</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.education }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Age</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.get_age }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Location</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{actor.location}}
+                    </div>
+                  </div>
+                    <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Sex</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{actor.sex}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                  <div class="tab-pane fade w-100" id="nav-look" role="tabpanel" aria-labelledby="nav-look-tab">
+                    <div class="card mt-3 w-100">
+                <div class="card-body w-100">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Height</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.height }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Weight</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.weight }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Eye color</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.eye_color }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Hair color</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{ actor.hair_color }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Race</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{actor.race}}
+                    </div>
+                  </div>
+                    <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Nation</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{actor.nation}}
+                    </div>
+                  </div>
+                    <hr>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h6 class="mb-0">Body type</h6>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                      {{actor.body_type}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+                  </div>
+                    <div class="tab-pane fade" id="nav-photos" role="tabpanel" aria-labelledby="nav-photos-tab">
 
                   </div>
                   <div class="tab-pane fade" id="nav-videos" role="tabpanel" aria-labelledby="nav-videos-tab">
@@ -29,32 +161,36 @@
                   <div class="tab-pane fade" id="nav-projects" role="tabpanel" aria-labelledby="nav-projects-tab">
 
                   </div>
-                    <div class="tab-pane fade w-100" id="nav-reqs" role="tabpanel" aria-labelledby="nav-reqs-tab">
-<div id="requests" class="d-flex flex-row w-100">
+                {% if owner %}
+                    <div class="tab-pane fade w-100 "  id="nav-reqs" role="tabpanel" aria-labelledby="nav-reqs-tab">
+<div id="requests" class="d-flex flex-row w-100"  style="background-image: url('{% static 'svg/req_rect.svg' %}')">
         <div id="incoming" class="d-flex flex-column w-50">
-            <h1>Incoming</h1>
-            <div class="d-flex">
+            <h1>Incoming</h1><br>
+            <div>
             {% for request in role2actor %}
                 <div class="d-flex">
-                <p>{{ request.role }} ----- {{  request.actor}}</p>
+                <p style="margin-right: 20px"><a href="">{{ request.role }}</a></p>
                 <form method="post">
                     {% csrf_token %}
                         <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;" name="Accept" value={{ request.id }}>Принять</button>
-                    <button type="submit" class="btn btn-outline-warning" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Отказать</button>
+                    <button type="submit" class="btn btn-secondary" style = "border-radius: 11px; margin:4px;"   name="Deny" value={{ request.id }}>Отказать</button>
              </form>
                 </div>
             {% endfor %}
             </div>
         </div>
         <div id="outgoing" class="d-flex flex-column w-50">
-            <h1> Outgoing </h1>
+            <h1> Outgoing </h1><br>
             {% for request in actor2role %}
-
-                <p>{{ request.actor }} ----- {{ request.role }}</p>
+            <div class="d-flex">
+                        <p class="mr-5"><a href="">{{  request.role}}</a></p>
+                        <p style="color: {{ request.color }}">{{ request.status }}</p>
+            </div>
             {% endfor %}
         </div>
     </div>
                   </div>
+                {% endif %}
                 </div>
             </div>
         </div>
@@ -62,13 +198,15 @@
             <div class="d-flex">
                 <img src="{% static 'images/korean.png'%}" style="width: 100%">
             </div>
-            <div class="d-flex flex-grow-1" style="background-color: #141414">
-
+            <div id="actor-info" class="d-flex flex-grow-1 p-3 flex-column pt-4" style="background-color: #141414">
+                <h3>{{ actor.name }}</h3>
+                <h3>{{ actor.email }}</h3>
             </div>
         </div>
     </div>
     </div>
 
+    {% if owner %}
 
     <div class="container-fluid">
 
@@ -77,7 +215,7 @@
 
     <div class="form-control">
 
-    <form action='{% url 'actor_profile' %}' method="post" name="profile">
+    <form action='{% url 'actor_profile' actor_id=user.actor.id %}' method="post" name="profile">
         {% csrf_token %}
             {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -100,4 +238,5 @@
     </div>
     </div>
     </div>
+    {% endif %}
 {% endblock %}

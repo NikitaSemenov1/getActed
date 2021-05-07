@@ -53,9 +53,15 @@ def signup_page(request):
 
 
 @login_required(login_url='login')
-def actor_profile_page(request):
+def actor_profile_page(request, actor_id):
+    if hasattr(request.user, 'employer') or request.user.actor.id != actor_id:
+        return render(request, "main/actor_profile.html", context={
+            'actor': Actor.objects.get(id=actor_id)
+        })
     if not hasattr(request.user, 'actor'):
+
         return redirect('index')
+
     actor = request.user.actor
 
     if request.method == 'POST':
@@ -76,13 +82,15 @@ def actor_profile_page(request):
             else:
                 messages.error(request, form.errors)
     form = ActorModelForm(instance=actor)
-
-    actor2role = RequestActorToRole.objects.filter(actor=request.user.actor)
-    role2actor = RequestRoleToActor.objects.filter(actor=request.user.actor)
+    if not hasattr(request.user, 'employer'):
+        actor2role = RequestActorToRole.objects.filter(actor=request.user.actor).order_by("-id")
+        role2actor = RequestRoleToActor.objects.filter(actor=request.user.actor).order_by("-id")
     return render(request, "main/actor_profile.html", context={
         'form': form,
         'actor2role': actor2role,
         'role2actor': role2actor,
+        'owner': True,
+        'actor': actor
     })
 
 
@@ -109,7 +117,7 @@ def employer_profile_page(request):
 
     profile_form = EmployerModelForm(instance=employer)
     role_form = RoleModelForm()
-    roles = Role.objects.filter(creator=request.user.employer)
+    roles = Role.objects.filter(creator=request.user.employer).order_by("-id")
     return render(request, "main/employer_profile.html", context={
         'profile_form': profile_form,
         'role_form': role_form,
@@ -128,14 +136,13 @@ def actors_page(request):
         print(RequestRoleToActor.objects.count())
     actors_set = Actor.objects.all()
     actor_filter = ActorFilter(request.GET, queryset=actors_set)
-    actors_set = actor_filter.qs
+    actors_set = actor_filter.qs.order_by("-id")
 
     roles = Role.objects.filter(creator=request.user.employer)
-
     return render(request, "main/actors.html", context={
         'filter': actor_filter,
         'actors': actors_set,
-        'roles': roles
+        'roles': roles,
     })
 
 
@@ -150,7 +157,7 @@ def roles_page(request):
 
     roles_set = Role.objects.all()
     roles_filter = RoleFilter(request.GET, queryset=roles_set)
-    roles_set = roles_filter.qs
+    roles_set = roles_filter.qs.order_by("-id")
     return render(request, "main/roles.html", context={
         'filter': roles_filter,
         'roles': roles_set,
@@ -162,9 +169,19 @@ def role_page(request, role_id):
     role = Role.objects.get(id=role_id)
     if role is None or not hasattr(request.user, 'employer') or role.creator != request.user.employer:
         return redirect('index')
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get('Accept') is not None:
+            a2r = RequestActorToRole.objects.get(id=request.POST['Accept'])
+            a2r.accept()
+            a2r.save()
+        elif request.POST.get('Deny') is not None:
+            a2r = RequestActorToRole.objects.get(id=request.POST['Deny'])
+            a2r.deny()
+            a2r.save()
 
-    actor2role = RequestActorToRole.objects.filter(role=role)
-    role2actor = RequestRoleToActor.objects.filter(role=role)
+    actor2role = RequestActorToRole.objects.filter(role=role, is_accepted=False, is_denied=False).order_by("-id")
+    role2actor = RequestRoleToActor.objects.filter(role=role).order_by("-id")
 
     return render(request, "main/employer_profile.html", context={
         'role': role,

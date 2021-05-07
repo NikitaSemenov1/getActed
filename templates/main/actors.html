@@ -3,12 +3,7 @@
 {% block title %} Актеры {% endblock %}
 
 {% block content %}
-
-    <form method="GET" action="{% url 'actors' %}" class="form-inline">
-        {% csrf_token %}
-        {{ filter.form }}
-    <button class="btn btn-primary" type="submit">Search</button>
-    </form>
+    {% load static %}
 <!-- Modal -->
 <div class="modal fade" id="choose_role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -41,10 +36,29 @@
     </div>
   </div>
 </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+    <div id="actors" class="col-md-8"   style="background-image: url('{% static 'svg/req_rect.svg' %}')">
+        <center><h1>Search actors</h1></center><br>
+        <div id="filter">
+
+    <form method="GET" action="{% url 'actors' %}" class="form-inline">
+        {% csrf_token %}
+{#        {{ filter.form }}#}
+        {% for field in filter.form %}
+            <div class="form-group mr-2">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            </div>
+        {% endfor %}
+    <button class="btn btn-secondary" type="submit">Search</button>
+    </form>
+        </div>
+    <div class="d-flex flex-column mt-5">
     {% for actor in actors %}
-        <div class="d-flex">
-        <p>{{ actor }}</p>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#choose_role" id="invite_{{ actor.id }}">
+        <div class="d-flex m-2">
+        <p><a href="{% url 'actor_profile' actor_id=actor.id %}">{{ actor }}</a></p>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#choose_role" id="invite_{{ actor.id }}">
             Invite
         </button>
         </div>
@@ -53,5 +67,11 @@
                                 document.getElementById('actor_id').value = {{ actor.id }}
                     });
                         </script>
+
     {% endfor %}
+    </div>
+        </div>
+        </div>
+
+        </div>
 {% endblock %}

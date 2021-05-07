@@ -11,6 +11,7 @@ class Actor(User):
     education = models.CharField(max_length=64, default=NONE_VALUE, verbose_name="Education")
     location = models.CharField(max_length=64, default=NONE_VALUE, verbose_name="Location")
     birth_date = models.DateField(default=date(2000, 1, 1), verbose_name="Birthday")
+
     # Look
 
     weight = models.IntegerField(default=0, verbose_name="Weight")
@@ -153,14 +154,18 @@ class RequestActorToRole(models.Model):
     is_denied = models.BooleanField(default=False)
     status = models.CharField(max_length=64, default="Not considered")
 
+    color = models.CharField(max_length=64, default="yellow")
+
     def accept(self):
         self.is_accepted = True
         self.status = "Accepted"
+        self.color = "green"
         self.save()
 
     def deny(self):
         self.is_denied = True
         self.status = "Denied"
+        self.color = "red"
         self.save()
 
 
@@ -171,12 +176,16 @@ class RequestRoleToActor(models.Model):
     is_denied = models.BooleanField(default=False)
     status = models.CharField(max_length=64, default="Not considered")
 
+    color = models.CharField(max_length=64, default="yellow")
+
     def accept(self):
         self.is_accepted = True
         self.status = "Accepted"
+        self.color = "green"
         self.save()
 
     def deny(self):
         self.is_denied = True
         self.status = "Denied"
+        self.color = "red"
         self.save()
