@@ -1,0 +1,34 @@
+#profile-nav a{
+    color: black;
+}
+
+#requests {
+    margin-top: 20px;
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+#requests h1 {
+    font-family: Minion Pro, serif;
+font-style: normal;
+font-weight: normal;
+font-size: 36px;
+line-height: 43px;
+color: #FFFFFF;
+}
+#requests p {
+
+    font-family: Minion Pro, serif;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 43px;
+color: #FFFFFF;
+}
+
+#incoming, #outgoing{
+    margin: 20px;
+}
+
