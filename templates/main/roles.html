@@ -26,16 +26,20 @@
     <div class="d-flex flex-column mt-5">
 
     {% for role in roles %}
-        <div class="d-flex m-3">
-            <p>{{ role }}</p>
-            <form method="POST" action="{% url 'roles' %}">
-                {% csrf_token %}
-                <input type="hidden" name="actor_id" value="{{ user.actor.id }}">
-                <input type="hidden" name="role_id" value="{{role.id}}">
-        <button type="submit" class="btn btn-secondary">
-            Send a request
-        </button>
-            </form>
+        <div class="row">
+            <div class="col-md-4">
+                <p>{{ role }}</p>
+            </div>
+            <div class="col-md-2">
+                <form method="POST" action="{% url 'roles' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="actor_id" value="{{ user.actor.id }}">
+                    <input type="hidden" name="role_id" value="{{role.id}}">
+                    <button type="submit" class="btn btn-secondary">
+                        Request
+                    </button>
+                </form>
+            </div>
         </div>
 
     {% endfor %}

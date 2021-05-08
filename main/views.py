@@ -54,10 +54,13 @@ def signup_page(request):
 
 @login_required(login_url='login')
 def actor_profile_page(request, actor_id):
-    if hasattr(request.user, 'employer') or request.user.actor.id != actor_id:
+    if hasattr(request.user, 'employer'):
         return render(request, "main/actor_profile.html", context={
             'actor': Actor.objects.get(id=actor_id)
         })
+    elif request.user.actor.id != actor_id:
+        return redirect('index')
+
     if not hasattr(request.user, 'actor'):
 
         return redirect('index')
@@ -134,7 +137,6 @@ def actors_page(request):
     if request.method == 'POST':
         r2a = RequestRoleToActor(role_id=int(request.POST['role_id']), actor_id=int(request.POST['actor_id']))
         r2a.save()
-        print(RequestRoleToActor.objects.count())
     actors_set = Actor.objects.all()
     actor_filter = ActorFilter(request.GET, queryset=actors_set)
     actors_set = actor_filter.qs.order_by("-id")

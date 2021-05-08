@@ -4,9 +4,38 @@
 
 {% block content %}
     {% load static %}
+
+    <!-- Modal -->
+<div class="modal fade" id="edit-profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+    <form action='{% url 'actor_profile' actor_id=actor.id %}' method="post" name="profile">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Choose the role</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        {% for field in form %}
+            <div class="form-group">
+            <label>{{ field.label }}</label>{{ field.label }}
+                {{ field }}
+            </div>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-dark"   > Save </button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
     <div class="container-fluid">
-
-
     <div class="row" style="height: 900px">
         <div class="col-md-10 p-0 d-flex flex-column" style="height: 100%;">
             <div class="d-flex flex-grow-1 flex-column" style="margin-top: 20px; margin-left: 50px; margin-right: 50px">
@@ -20,6 +49,7 @@
                     <a class="nav-item nav-link" id="nav-projects-tab" data-toggle="tab" href="#nav-projects" role="tab" aria-controls="nav-projects" aria-selected="false">Projects</a>
                     {% if owner %}
                       <a class="nav-item nav-link" id="nav-reqs-tab" data-toggle="tab" href="#nav-reqs" role="tab" aria-controls="nav-reqs" aria-selected="false">Requests</a>
+                        <a class="nav-item nav-link ml-auto"  data-toggle="modal" data-target="#edit-profile" aria-selected="false">Edit</a>
                     {% endif %}
                   </div>
                 </nav>
@@ -205,38 +235,4 @@
         </div>
     </div>
     </div>
-
-    {% if owner %}
-
-    <div class="container-fluid">
-
-    <div class="row">
-    <div class="col-md-6">
-
-    <div class="form-control">
-
-    <form action='{% url 'actor_profile' actor_id=user.actor.id %}' method="post" name="profile">
-        {% csrf_token %}
-            {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-        {{ form.as_ul }}
-{#        {% for field in form %}#}
-{#            <div class="form-group">#}
-{#            {{ field.label }}#}
-{#                {{ field }}#}
-{#            </div>#}
-{#        {% endfor %}#}
-        <button class="btn btn-primary" type="submit" value="Submit"> Save</button>
-    </form>
-    </div>
-
-    </div>
-    <div class="col-md-6">
-
-
-    </div>
-    </div>
-    </div>
-    {% endif %}
 {% endblock %}
