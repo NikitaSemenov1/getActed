@@ -25,13 +25,11 @@
             </select>
         <input type="hidden" id="actor_id" name="actor_id" value="popa">
         </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary"   > Invite </button>
+        <button type="submit" class="btn btn-dark"   > Invite </button>
       </div>
-
     </form>
     </div>
   </div>
@@ -40,31 +38,36 @@
     <div class="row justify-content-center">
     <div id="actors" class="col-md-8"   style="background-image: url('{% static 'svg/req_rect.svg' %}')">
         <center><h1>Search actors</h1></center><br>
-        <div id="filter">
-
-    <form method="GET" action="{% url 'actors' %}" class="form-inline">
-        {% csrf_token %}
-{#        {{ filter.form }}#}
-        {% for field in filter.form %}
-            <div class="form-group mr-2">
-            <label>{{ field.label }}</label>
-            {{ field }}
-            </div>
-        {% endfor %}
-    <button class="btn btn-secondary" type="submit">Search</button>
-    </form>
-        </div>
+    <div id="filter">
+        <form method="GET" action="{% url 'actors' %}" class="form-inline">
+            {% csrf_token %}
+    {#        {{ filter.form }}#}
+            {% for field in filter.form %}
+                <div class="form-group mr-2">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                </div>
+            {% endfor %}
+        <button class="btn btn-secondary" type="submit">Search</button>
+        </form>
+    </div>
     <div class="d-flex flex-column mt-5">
     {% for actor in actors %}
-        <div class="d-flex m-2">
+        <div class="row">
+        <div class="col-md-4">
+
         <p><a href="{% url 'actor_profile' actor_id=actor.id %}">{{ actor }}</a></p>
+
+        </div>
+            <div class="col-md-2">
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#choose_role" id="invite_{{ actor.id }}">
             Invite
         </button>
+            </div>
         </div>
                         <script type="text/javascript">
                             $("#invite_{{ actor.id }}").click(function () {
-                                document.getElementById('actor_id').value = {{ actor.id }}
+                                document.getElementById('actor_id').value = {{ actor.id }};
                     });
                         </script>
 

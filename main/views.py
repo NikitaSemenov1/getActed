@@ -84,7 +84,8 @@ def actor_profile_page(request, actor_id):
     form = ActorModelForm(instance=actor)
     if not hasattr(request.user, 'employer'):
         actor2role = RequestActorToRole.objects.filter(actor=request.user.actor).order_by("-id")
-        role2actor = RequestRoleToActor.objects.filter(actor=request.user.actor).order_by("-id")
+        role2actor = RequestRoleToActor.objects.filter(actor=request.user.actor,
+                                                       is_denied=False, is_accepted=False).order_by("-id")
     return render(request, "main/actor_profile.html", context={
         'form': form,
         'actor2role': actor2role,
